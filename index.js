@@ -58,10 +58,10 @@ Leanpub.prototype.status = function status(options, callback){
   var ee = new EventEmitter;
   var poller, poll;
 
-  if (options.poll === 'undefined' || options.poll === false){
+  if (options.poll === 'undefined'){
     poll = true;
   } else {
-    poll = true;
+    poll = options.poll;
   }
 
   this.get(url, function(err, res){
@@ -75,16 +75,18 @@ Leanpub.prototype.status = function status(options, callback){
         ee.emit('done', res);
       } else {
         poller = setInterval(function () {
-          self.status(slug, function(err, res){
+          self.status({slug: options.slug, poll: false }, 
+            function(err, res){
             
-            if (res.num) { 
-              ee.emit('response', res);
-            } else {
-              clearInterval(poller);
-              ee.emit('done', res);
+              if (res.num) { 
+                ee.emit('response', res);
+              } else {
+                clearInterval(poller);
+                ee.emit('done', res);
+              }
+              
             }
-            
-          }, false);
+          );
         }, 10000);
       }
     }
@@ -104,9 +106,9 @@ Leanpub.prototype.status = function status(options, callback){
 Leanpub.prototype.sales = function(options, callback){
   var url;
 
-  if (report === 'summary'){
+  if (options.report === 'summary'){
     url = this.url + options.slug + '/sales.json';
-  } else if (report === 'all'){
+  } else if (options.report === 'all'){
     url = this.url + options.slug + '/individual_purchases.json';
   } else {
     throw new Error;

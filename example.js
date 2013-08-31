@@ -4,20 +4,24 @@ var book = 'learnjs';
 
 var leanpub = new Leanpub(apikey);
 
-leanpub.sales(book, 'summary', function(err, res){
+leanpub.sales({ slug: book, report: 'summary' }, function(err, res){
   console.log(res.total_book_royalties);
 });
 
-leanpub.sales(book, 'all', function(err, res){
+leanpub.sales({ slug: book, report: 'all' }, function(err, res){
   console.log(res.length);
 });
 
-var status = leanpub.status(book, function(err, res){
-  console.log('this is probably unnecessary')
+leanpub.preview({ slug: book }, function(err, res){
+  console.log(res);
+});
+
+var status = leanpub.status({ slug: book, poll: true }, function(err, res){
+  console.log(res)
 });
 
 status.on('response', function(currentStatus, oh){
-  console.log('yeah', currentStatus.num, oh);
+  console.log('step: ', currentStatus.num);
 });
 
 status.on('done', function(res){
