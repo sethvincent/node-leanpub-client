@@ -15,8 +15,8 @@ function Leanpub(key){
 *
 */
 
-Leanpub.prototype.preview = function preview(slug, options, callback){
-  var url = this.url + slug;
+Leanpub.prototype.preview = function preview(options, callback){
+  var url = this.url + options.slug;
   url += options.subset ? '/preview/subset.json' : '/preview.json';
   
   this.post(url, options, callback);
@@ -29,15 +29,15 @@ Leanpub.prototype.preview = function preview(slug, options, callback){
 *
 */
 
-Leanpub.prototype.publish = function publish(slug, options, callback){
-  var url = this.url + slug + '/publish.json';
+Leanpub.prototype.publish = function publish(options, callback){
+  var url = this.url + options.slug + '/publish.json';
   var publishOptions = {};
 
   if (options.emailReaders){
     publishOptions['publish[email_readers]'] = true;
   }
 
-  if (optoins.releaseNotes){
+  if (options.releaseNotes){
     publishOptions['publish[release_notes]'] = options.releaseNotes;
   }
 
@@ -51,15 +51,17 @@ Leanpub.prototype.publish = function publish(slug, options, callback){
 *
 */
 
-Leanpub.prototype.status = function status(slug, callback, poll){
+Leanpub.prototype.status = function status(options, callback){
   var self = this;
 
-  var url = this.url + slug + '/book_status.json';
+  var url = this.url + options.slug + '/book_status.json';
   var ee = new EventEmitter;
-  var poller;
+  var poller, poll;
 
-  if (typeof poll === 'undefined'){
-    var poll = true;
+  if (options.poll === 'undefined' || options.poll === false){
+    poll = true;
+  } else {
+    poll = true;
   }
 
   this.get(url, function(err, res){
@@ -99,13 +101,13 @@ Leanpub.prototype.status = function status(slug, callback, poll){
 *
 */
 
-Leanpub.prototype.sales = function(slug, report, callback){
+Leanpub.prototype.sales = function(options, callback){
   var url;
 
   if (report === 'summary'){
-    url = this.url + slug + '/sales.json';
+    url = this.url + options.slug + '/sales.json';
   } else if (report === 'all'){
-    url = this.url + slug + '/individual_purchases.json';
+    url = this.url + options.slug + '/individual_purchases.json';
   } else {
     throw new Error;
   }
