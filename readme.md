@@ -47,18 +47,19 @@ status.on('done', function(res){
 ```
 
 ## methods
+The callbacks all take error and response arguments: `callback(err, res)`.
 
-**leanpub.preview(options, callback)**
+**leanpub.preview(options, callback)**  
 - slug (string, required, the slug of your book)
 - subset (boolean, to generate a subset of your book based on the Preview.txt file)
 
-**leanpub.publish(options, callback)**
+**leanpub.publish(options, callback)**  
 options:
 - slug (string, required, the slug of your book)
 - emailReaders (boolean, required if you want to add release notes)
 - releaseNotes (string, the release notes that will be emailed to readers)
 
-**leanpub.status(options, callback)**
+**leanpub.status(options, callback)**  
 options:
 - slug (string, required, the slug of your book)
 - poll (boolean, default true. set to false if you don't want to poll leanpub to check for when the book finishes generating)
@@ -67,7 +68,7 @@ returns an event emitter with 'response' event that returns information about th
 
 if `poll` is true, the response event will fire every 10 seconds until the book is done generating.
 
-**leanpub.sales(options, callback)**
+**leanpub.sales(options, callback)**  
 options:
 - slug (string, required, the slug of your book)
 - report (string, required, can be 'summary', to get a summary of your sales, or 'all', to get a list of all purchases **TODO:** allow paging through results)
