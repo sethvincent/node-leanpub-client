@@ -1,0 +1,24 @@
+{
+  "name": "leanpub-client",
+  "version": "0.0.0",
+  "description": "a node.js api client for leanpub.com",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": [
+    "api",
+    "leanpub",
+    "publishing",
+    "ebooks"
+  ],
+  "author": "sethvincent",
+  "license": "MIT",
+  "dependencies": {
+    "request": "~2.27.0"
+  },
+  "devDependencies": {
+    "nock": "~0.22.1",
+    "tape": "~1.0.4"
+  }
+}
