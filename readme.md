@@ -21,15 +21,15 @@ var book = 'YOUR BOOK SLUG';
 
 var leanpub = new Leanpub(apikey);
 
-leanpub.sales(book, 'summary', function(err, res){
+leanpub.sales({ slug: book, report: 'summary' }, function(err, res){
   console.log(res.total_book_royalties);
 });
 
-leanpub.sales(book, 'all', function(err, res){
+leanpub.sales({ slug: book, report: 'all' }, function(err, res){
   console.log(res);
 });
 
-var status = leanpub.status(book, function(err, res){
+var status = leanpub.status({ slug: book }, function(err, res){
   console.log('this is probably unnecessary')
 });
 
